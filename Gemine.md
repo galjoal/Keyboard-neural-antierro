@@ -390,6 +390,145 @@ Critério: latência + acurácia
 
 ---
 
+# GEMINI.md — Seção de Comandos (Versão Corrigida)
+
+Você tem razão! O foco é para a **IA do Firebase** trabalhar no código. Vou enxugar:
+
+```markdown
+---
+
+## 🛠️ REGRA 10: Comandos CLI (Referência para IA)
+
+Quando sugerir comandos, prefira ferramentas modernas e eficientes.
+
+---
+
+### 📊 Manipulação de Dados (Configs)
+
+| Comando | Uso | Quando Sugerir |
+|---------|-----|----------------|
+| `jq` | Filtra JSON | Ler/modificar config.json |
+| `yq` | Filtra YAML/TOML | Ler Cargo.toml |
+| `dasel` | JSON/YAML/XML/TOML | Quando precisar de um só comando |
+
+```bash
+# Exemplos que a IA pode sugerir:
+cat config.json | jq '.model.path'
+yq '.dependencies' Cargo.toml
+dasel -f Cargo.toml 'dependencies.ort'
+```
+
+---
+
+### 📁 Busca e Visualização
+
+| Comando | Substitui | Quando Sugerir |
+|---------|-----------|----------------|
+| `bat` | `cat` | Mostrar código com cores |
+| `rg` | `grep` | Buscar texto em arquivos |
+| `fd` | `find` | Encontrar arquivos |
+| `eza` | `ls` | Listar diretórios |
+
+```bash
+# Exemplos que a IA pode sugerir:
+bat core/engine.rs                    # Ver arquivo
+rg "PauseDetector" --type rust        # Buscar uso
+fd -e rs                              # Listar .rs
+rg "TODO|FIXME" --type rust           # Encontrar pendências
+```
+
+---
+
+### 🦀 Rust (Essenciais)
+
+```bash
+# Build
+cargo build                 # Debug
+cargo build --release       # Release
+
+# Qualidade
+cargo check                 # Verificar sem compilar
+cargo fmt                   # Formatar
+cargo clippy                # Linter
+
+# Testes
+cargo test                  # Todos os testes
+cargo test nome_do_teste    # Teste específico
+cargo test -- --nocapture   # Ver prints
+
+# Análise
+cargo tree                  # Árvore de deps
+```
+
+---
+
+### 🔍 Padrões de Busca Úteis
+
+Quando o usuário pedir para encontrar algo:
+
+```bash
+# Encontrar funções públicas
+rg "pub fn" --type rust
+
+# Encontrar struct específica
+rg "struct PauseDetector" --type rust -C 3
+
+# Encontrar imports
+rg "^use.*engine" --type rust
+
+# Encontrar TODOs
+rg "TODO" --type rust
+
+# Arquivos maiores que 400 linhas (violação de regra)
+fd -e rs -x sh -c 'l=$(wc -l < "$1"); [ $l -gt 400 ] && echo "$1: $l linhas"' _ {}
+
+# Contar linhas por arquivo
+fd -e rs -x wc -l {} \; | sort -n
+```
+
+---
+
+### ✅ Verificação Antes de Sugerir Mudanças
+
+Antes de propor código, a IA pode sugerir:
+
+```bash
+# Verificar estado atual
+cargo check && cargo clippy
+
+# Ver se arquivo existe
+fd "engine" -e rs
+
+# Ver estrutura do arquivo
+rg "^// (SEÇÃO|═══)" core/engine.rs
+```
+
+---
+
+### 📋 Cheatsheet Rápido
+
+```
+╔═══════════════════════════════════════════════════════╗
+║              COMANDOS PARA IA SUGERIR                ║
+╠═══════════════════════════════════════════════════════╣
+║                                                       ║
+║  VER ARQUIVO      │  bat arquivo.rs                  ║
+║  BUSCAR TEXTO     │  rg "pattern" --type rust        ║
+║  BUSCAR ARQUIVO   │  fd nome -e rs                   ║
+║  VER CONFIG       │  cat x.json | jq '.chave'        ║
+║                   │                                   ║
+║  COMPILAR         │  cargo build                      ║
+║  TESTAR           │  cargo test                       ║
+║  FORMATAR         │  cargo fmt                        ║
+║  VERIFICAR        │  cargo check && cargo clippy      ║
+║                   │                                   ║
+║  CONTAR LINHAS    │  wc -l arquivo.rs                ║
+║  LISTAR SEÇÕES    │  rg "^// SEÇÃO" arquivo.rs       ║
+║                                                       ║
+╚═══════════════════════════════════════════════════════╝
+```
+
+
 ## 📚 REFERÊNCIAS
 
 - **TinyBERT**: Modelo leve para MLM (~15MB quantizado)
@@ -400,7 +539,7 @@ Critério: latência + acurácia
 
 ---
 
-*Última atualização: [DATA]*
+*Última atualização:<br> [2 de fevereiro de 2026], [22:07, segunda-feira]
 *Versão: 1.0*
 ```
 
