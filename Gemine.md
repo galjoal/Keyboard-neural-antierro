@@ -8,10 +8,14 @@ Este arquivo define as regras que toda IA (Gemini, GPT, Claude, Roo) deve seguir
 ---
 
 ## ⚠️ IMPORTANTE (sempre)
+:
+1° Quando ficar na dúvida liste as melhores opções para o usuário decidir.
+1) **Se ficar em dúvida**, liste **até 3 opções** e recomende **1** (com motivo).  
+2) **Antes de escrever código**, apresente um **plano com 3 a 8 tópicos** (para eu aprovar e saber o tamanho da mudança e quantidade de tokens aproximados para o uso).  
+3) **Mudanças pequenas e revisáveis**: 1 tarefa = 1 PR (ou 1 commit pequeno, se eu estiver trabalhando direto).
+4)  **Comandos destrutivos** somente com autorização e que sejam bem explicados e suas consequências . Uso somente em caso de alguma necessidade extrema.
+5)   **Use melhores práticas** de comandos para gerir a produtividade e organização. Exemplo: o comando jq 
 
-1. **Se ficar em dúvida**, liste **até 3 opções** e recomende **1** (com motivo).
-2. **Antes de escrever código**, apresente um **plano com 3 a 8 tópicos** (para eu aprovar e saber o tamanho da mudança e quantidade de tokens aproximados).
-3. **Mudanças pequenas e revisáveis**: 1 tarefa = 1 PR (ou 1 commit pequeno).
 
 ---
 
@@ -33,7 +37,7 @@ Ritmo: Protótipo → Beta → Produção
 
 ---
 
-## 🏗️ REGRA 1: Estrutura "Condomínio" (Seções)
+## 🏗️ REGRA 1A: Estrutura "Condomínio" (Seções)
 
 Cada arquivo é um "prédio" com "apartamentos" (seções numeradas).
 
@@ -121,6 +125,14 @@ mod tests {
 - Ordem das seções **não quebra o código**
 - Facilita revisão no celular
 - Erro reporta a SEÇÃO afetada
+
+---
+
+## ❗ REGRA 1B: Chamada e registro de de segurança 
+
+### Cada bloco/seção deve conter um sistema de report em caso de falha com o nome e número da seção.
+- Adicione uma chamada em caso de falha para saber de qual bloco bem o problema.
+- Adicone um arquivo que armazene os logs dos erros. 
 
 ---
 
